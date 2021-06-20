@@ -1,4 +1,5 @@
-﻿using FanFiction.ViewModel;
+﻿using FanFiction.Services;
+using FanFiction.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,17 @@ namespace FanFiction.Controllers
                 var result = await _userManager.CreateAsync(user, userData.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("index", "Home");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    await emailService.SendEmailAsync(userData.Email, "Confirm your account",
+                        $"Confirm registration by following the link: <a href='{callbackUrl}'>link</a>");
+
+                    return Content("To complete registration, check your email and follow the link provided in the mail");
                 }
             }
             return View(userData);
@@ -46,6 +56,26 @@ namespace FanFiction.Controllers
                 Email = model.Email,
             };
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
+        }
         
         [HttpGet]
         [AllowAnonymous]
@@ -53,13 +83,25 @@ namespace FanFiction.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel user)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, false);
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user != null)
+                {
+                    // проверяем, подтвержден ли email
+                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                        return View(model);
+                    }
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -67,7 +109,7 @@ namespace FanFiction.Controllers
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-            return View(user);
+            return View(model);
         }
 
         public async Task<IActionResult> Logout()
