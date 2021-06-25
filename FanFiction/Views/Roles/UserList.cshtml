@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<h2>User list</h2>
+<table class="table">
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Roles</a>
+                <a class="btn btn-sm btn-primary" asp-action="Block" asp-route-userid="@user.Id">Block</a>
+                <a class="btn btn-sm btn-primary" asp-action="Unblock" asp-route-userid="@user.Id">Unblock</a>
+                <a class="btn btn-sm btn-primary" asp-action="DeleteUser" asp-route-userid="@user.Id">DeleteUser</a>
+            </td>
+        </tr>
+    }
+</table>

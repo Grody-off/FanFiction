@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@using static FanFiction.ViewModel.EditUserViewModel
+@{
+    ViewBag.Title = "User list";
+}
+<table class="table">
+    <tr><th>Email</th></tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <form>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-controller="Roles" asp-action="Edit" asp-route-userid="@user.Id">Roles</a>
+                    @if (user.LockoutEnabled)
+                    {
+                        <button type="submit" class="btn btn-sm btn-outline-success" asp-action="UnBlock" asp-route-id="@user.Id" formmethod="post">UnBlock</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-sm btn-outline-info" asp-action="Block" asp-route-id="@user.Id" formmethod="post">Block</button>
+                    }
+                    <button type="submit" class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@user.Id" formmethod="post">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
