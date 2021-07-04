@@ -3,5 +3,6 @@
         <label for="name">New Role</label>
         <input name="name" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-success">Add</button>
+    <a href="@Context.Request.Headers["Referer"].ToString()" id="btn-back" class="mr-2 ml-2 btn btn-primary">Back</a>
 </form>
