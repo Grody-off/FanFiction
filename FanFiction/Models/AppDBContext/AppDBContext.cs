@@ -14,8 +14,13 @@ namespace FanFiction.Models.AppDBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Сomposition>()
+               .ToTable("Compositions")
+               .Property(q => q.Id)
+               .ValueGeneratedOnAdd();
 
+            base.OnModelCreating(modelBuilder);
         }
+        public DbSet<Сomposition> Сomposition { get; set; }
     }
 }

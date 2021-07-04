@@ -13,7 +13,6 @@ namespace FanFiction.Controllers
     {
         UserManager<IdentityUser> _userManager;
 
-
         public AdminController(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;   
