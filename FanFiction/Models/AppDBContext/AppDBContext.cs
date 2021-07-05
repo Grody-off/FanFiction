@@ -19,8 +19,14 @@ namespace FanFiction.Models.AppDBContext
                .Property(q => q.Id)
                .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Chapter>()
+                .ToTable("Chapters")
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Сomposition> Сomposition { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
     }
 }

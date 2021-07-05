@@ -17,6 +17,7 @@
         <h5 class="text-left">@mod.Fandom </h5>
         <h5 class="text-left">@mod.Description </h5>
         <a asp-action="Edit" asp-route-id="@mod.Id" method="post" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
+        <a asp-action="NewChapter" asp-route-id="@mod.Id" method="post" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Add new chapter</a>
         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
         <br />
         <br />
