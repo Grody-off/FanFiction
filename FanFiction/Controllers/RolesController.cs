@@ -53,10 +53,7 @@ namespace FanFiction.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult UserList()
-        {
-            return Redirect("~/Admin/Index");
-        }
+        public IActionResult UserList() => Redirect("~/Admin/Index");
 
         public async Task<IActionResult> Edit(string userId)
         {

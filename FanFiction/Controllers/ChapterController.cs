@@ -1,28 +1,21 @@
 ﻿using FanFiction.Models;
 using FanFiction.Models.AppDBContext;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FanFiction.Controllers
 {
+    [Authorize]
     public class ChapterController : Controller
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppDBContext _context;
 
-        public ChapterController(AppDBContext context, IHttpContextAccessor httpContextAccessor)
+        public ChapterController(AppDBContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public IActionResult NewChapter(string id)
@@ -31,7 +24,6 @@ namespace FanFiction.Controllers
             if (comp != null)
             {
                 var newChapter = new Chapter { CompositionId = comp.Id };
-
                 return View(newChapter);
             }
             return NotFound();
@@ -84,7 +76,6 @@ namespace FanFiction.Controllers
             }
             return NotFound();
         }
-
         [HttpPost]
         public async Task<IActionResult> Edit(Chapter updated, string id)
         {
@@ -110,6 +101,5 @@ namespace FanFiction.Controllers
             }
             return Redirect($"/Chapter/ChapterList/{chapter.CompositionId}");
         }
-
     }
 }

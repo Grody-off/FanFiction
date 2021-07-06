@@ -24,11 +24,9 @@ namespace FanFiction.Controllers
         {
             IdentityUser user = await _userManager.FindByIdAsync(id);
             if (user == null)
-            {
                 return NotFound();
-            }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email };
-            return View(model);
+
+            return View(new EditUserViewModel { Id = user.Id, Email = user.Email });
         }
 
         [HttpPost]
@@ -44,9 +42,7 @@ namespace FanFiction.Controllers
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
-                    {
                         return RedirectToAction("Index");
-                    }
                     else
                     {
                         foreach (var error in result.Errors)
@@ -58,7 +54,6 @@ namespace FanFiction.Controllers
             }
             return View(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Block(EditUserViewModel model)
@@ -75,6 +70,7 @@ namespace FanFiction.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> UnBlock(EditUserViewModel model)
         {
@@ -96,9 +92,8 @@ namespace FanFiction.Controllers
         {
             IdentityUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
-            {
                 await _userManager.DeleteAsync(user);
-            }
+
             return RedirectToAction("Index");
         }
     }

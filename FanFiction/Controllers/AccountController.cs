@@ -18,10 +18,8 @@ namespace FanFiction.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public IActionResult Register()
-        {
-            return View();
-        }
+
+        public IActionResult Register() => View();
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel userData)
@@ -79,10 +77,7 @@ namespace FanFiction.Controllers
         
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
         [AllowAnonymous]
@@ -93,7 +88,6 @@ namespace FanFiction.Controllers
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null)
                 {
-                    // проверяем, подтвержден ли email
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
@@ -117,9 +111,6 @@ namespace FanFiction.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
     }
 }

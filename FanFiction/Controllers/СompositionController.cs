@@ -1,5 +1,6 @@
 ﻿using FanFiction.Models;
 using FanFiction.Models.AppDBContext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace FanFiction.Controllers
 {
+    [Authorize]
     public class СompositionController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
