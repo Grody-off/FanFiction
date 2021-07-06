@@ -79,7 +79,7 @@ namespace FanFiction.Controllers
         public async Task<IActionResult> Edit(Сomposition updated, string id)
         {
             if (updated == null)
-                return RedirectToAction("New");
+                return RedirectToAction("Index");
             var comp = await _context.Сomposition.FirstOrDefaultAsync(c => c.Id == id);
 
             comp.Title = updated.Title;

@@ -48,15 +48,68 @@ namespace FanFiction.Controllers
 
             var newChapter = new Chapter
             {
+                CompositionId = chapter.CompositionId,
                 Title = chapter.Title,
                 Contents = chapter.Contents,
                 Сomposition = comp
             };
-
             _context.Chapters.Add(newChapter);
             _context.SaveChanges();
 
             return Redirect("~/Сomposition/Index");
         }
+
+        public IActionResult ChapterList(string id)
+        {
+            var comp = _context.Сomposition
+                .Include(c => c.Chapters)
+                .FirstOrDefault(c => c.Id == id);
+
+            return View(comp.Chapters.ToList());
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
+            if (chapter != null)
+            {
+                var newChapter = new Chapter { 
+                    CompositionId = chapter.CompositionId,
+                    Title = chapter.Title,
+                    Contents = chapter.Contents,
+                    Id = chapter.Id,
+                };
+
+                return View(newChapter);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Chapter updated, string id)
+        {
+            if (updated == null)
+                return Redirect("~/Сomposition/Index");
+            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
+
+            chapter.Title = updated.Title;
+            chapter.Contents = updated.Contents;
+            _context.SaveChanges();
+
+            return Redirect($"/Chapter/ChapterList/{chapter.CompositionId}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
+            if (chapter != null)
+            {
+                _context.Chapters.Remove(chapter);
+                _context.SaveChanges();
+            }
+            return Redirect($"/Chapter/ChapterList/{chapter.CompositionId}");
+        }
+
     }
 }

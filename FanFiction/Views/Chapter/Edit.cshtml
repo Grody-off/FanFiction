@@ -1,0 +1,24 @@
+﻿@{ ViewData["Title"] = "Edit"; }
+@model FanFiction.Models.Chapter
+
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-xl-9">
+        <form asp-action="Edit" method="POST">
+            <div asp-validation-summary="All" class="text-danger">
+                <div class="form-group">
+                    <input type="hidden" asp-for="CompositionId" />
+                </div>
+                <div class="form-group">
+                    <input minlength="1" maxlength="80" id="input-title" asp-for="Title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="textarea-contents" class="form-control" asp-for="Contents" rows="10"></textarea>
+                </div>
+                <div class="form-group" align="center">
+                    <input type="submit" value="Save" class="ml-2 btn btn-primary">
+                    <a href="@Context.Request.Headers["Referer"].ToString()" id="btn-back" class="mr-2 ml-2 btn btn-primary">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
