@@ -18,6 +18,21 @@ namespace FanFiction.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> ChapterPage(string id)
+        {
+            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
+            return View(chapter);
+        }
+        
+        public IActionResult ChapterList(string id)
+        {
+            var comp = _context.Сomposition
+                .Include(c => c.Chapters)
+                .FirstOrDefault(c => c.Id == id);
+
+            return View(comp.Chapters.ToList());
+        }
+
         public IActionResult NewChapter(string id)
         {
             var comp = _context.Сomposition.FirstOrDefault(c => c.Id == id);
@@ -49,15 +64,6 @@ namespace FanFiction.Controllers
             _context.SaveChanges();
 
             return Redirect("~/Сomposition/Index");
-        }
-
-        public IActionResult ChapterList(string id)
-        {
-            var comp = _context.Сomposition
-                .Include(c => c.Chapters)
-                .FirstOrDefault(c => c.Id == id);
-
-            return View(comp.Chapters.ToList());
         }
 
         public async Task<IActionResult> Edit(string id)

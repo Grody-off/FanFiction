@@ -8,8 +8,9 @@
                 <td>@chapters.Title</td>
                 <td>
                     <form asp-action="Delete" asp-route-id="@chapters.Id" method="post">
+                        <a asp-action="ChapterPage" asp-route-id="@chapters.Id" class="mr-2 ml-2 btn btn-sm btn-success">Read</a>
+                        <a asp-action="Edit" asp-route-id="@chapters.Id" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        <a asp-action="Edit" asp-route-id="@chapters.Id"  class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
                     </form>
                 </td>
             </tr>
