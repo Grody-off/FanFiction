@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -50,7 +51,8 @@ namespace FanFiction.Controllers
                 AuthorID = userId,
                 Title = comp.Title,
                 Description = comp.Description,
-                Fandom = comp.Fandom
+                Fandom = comp.Fandom,
+                LastEdit = DateTime.UtcNow                
             };
 
             _context.Add(newComp);
@@ -87,7 +89,7 @@ namespace FanFiction.Controllers
             comp.Title = updated.Title;
             comp.Description = updated.Description;
             comp.Fandom = updated.Fandom;
-
+            comp.LastEdit = DateTime.UtcNow;
             _context.SaveChanges();
 
             return RedirectToAction("Index");

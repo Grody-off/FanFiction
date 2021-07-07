@@ -15,7 +15,7 @@ namespace FanFiction.Controllers
             _context = context;
         }
 
-        public IActionResult Index() => View(_context.Сomposition.ToList());
+        public IActionResult Index() => View(_context.Сomposition.OrderBy(t => t.LastEdit).Reverse().ToList());
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

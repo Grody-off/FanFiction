@@ -12,9 +12,11 @@
             <a asp-action="ChapterList" asp-route-id="@mod.Id" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Chapter list</a>
             @if (User.IsInRole("Admin"))
             {
-                <button type="submit" class="btn btn-sm btn-danger" 
-                        onclick="return confirm('this will lead to the PERMANENTLY deletion of this composition');">Delete
+                <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('this will lead to the PERMANENTLY deletion of this composition');">
+                    Delete
                 </button>
+                <a asp-action="Edit" asp-route-id="@mod.Id" asp-controller="Сomposition" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
             }
             <br />
             <br />

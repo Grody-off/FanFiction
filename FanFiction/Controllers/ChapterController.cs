@@ -3,6 +3,7 @@ using FanFiction.Models.AppDBContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace FanFiction.Controllers
                 .Include(c => c.Chapters)
                 .FirstOrDefault(c => c.Id == id);
 
-            return View(comp.Chapters.ToList());
+            return View(comp.Chapters.OrderBy(t => t.LastEdit).ToList());
         }
 
         public IActionResult NewChapter(string id)
@@ -59,8 +60,10 @@ namespace FanFiction.Controllers
                 CompositionId = chapter.CompositionId,
                 Title = chapter.Title,
                 Contents = chapter.Contents,
-                Сomposition = comp
+                Сomposition = comp,
+                LastEdit = DateTime.Now,
             };
+            newChapter.Сomposition.LastEdit = newChapter.LastEdit;
             _context.Chapters.Add(newChapter);
             _context.SaveChanges();
 
@@ -72,7 +75,7 @@ namespace FanFiction.Controllers
             var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
             if (chapter != null)
             {
-                var newChapter = new Chapter { 
+                var newChapter = new Chapter {
                     CompositionId = chapter.CompositionId,
                     Title = chapter.Title,
                     Contents = chapter.Contents,
@@ -88,10 +91,14 @@ namespace FanFiction.Controllers
         {
             if (updated == null)
                 return Redirect("~/Сomposition/Index");
-            var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
+            var chapter = await _context.Chapters
+                                .Include(c => c.Сomposition)
+                                .FirstOrDefaultAsync(c => c.Id == id);
 
             chapter.Title = updated.Title;
             chapter.Contents = updated.Contents;
+            chapter.LastEdit = DateTime.UtcNow;
+            chapter.Сomposition.LastEdit = chapter.LastEdit;
             _context.SaveChanges();
 
             return Redirect($"/Chapter/ChapterList/{chapter.CompositionId}");

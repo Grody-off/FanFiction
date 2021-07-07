@@ -4,14 +4,16 @@ using FanFiction.Models.AppDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210707100525_lastEdit")]
+    partial class lastEdit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +60,6 @@ namespace FanFiction.Migrations
 
                     b.Property<string>("Fandom")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastEdit")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");

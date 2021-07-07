@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FanFiction.Models
 {
@@ -14,6 +15,8 @@ namespace FanFiction.Models
         public string Description { get; set; }
         public string Fandom { get; set; }
         public string Tags { get; set; }
+
+        public DateTime LastEdit { get; set; }
 
         public ICollection<Chapter> Chapters { get; set; }
     }

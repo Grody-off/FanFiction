@@ -1,4 +1,6 @@
-﻿namespace FanFiction.Models
+﻿using System;
+
+namespace FanFiction.Models
 {
     public class Chapter
     {
@@ -7,5 +9,6 @@
         public Сomposition Сomposition { get; set; }
         public string Title { get; set; }
         public string Contents { get; set; }
+        public DateTime LastEdit{ get; set; }
     }
 }
