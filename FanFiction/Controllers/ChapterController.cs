@@ -18,12 +18,13 @@ namespace FanFiction.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> ChapterPage(string id)
         {
             var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);
             return View(chapter);
         }
-        
+        [AllowAnonymous]
         public IActionResult ChapterList(string id)
         {
             var comp = _context.Сomposition
@@ -65,7 +66,7 @@ namespace FanFiction.Controllers
 
             return Redirect("~/Сomposition/Index");
         }
-
+        
         public async Task<IActionResult> Edit(string id)
         {
             var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == id);

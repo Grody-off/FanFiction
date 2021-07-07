@@ -104,5 +104,7 @@ namespace FanFiction.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public IActionResult Show() => View(_context.Сomposition.ToList());
     }
 }

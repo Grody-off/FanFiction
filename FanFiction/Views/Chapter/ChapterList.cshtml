@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<FanFiction.Models.Chapter>
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> userManager
 
 <div class="container">
     <table class="table">
@@ -7,11 +10,16 @@
             <tr>
                 <td>@chapters.Title</td>
                 <td>
+                    
                     <form asp-action="Delete" asp-route-id="@chapters.Id" method="post">
                         <a asp-action="ChapterPage" asp-route-id="@chapters.Id" class="mr-2 ml-2 btn btn-sm btn-success">Read</a>
-                        <a asp-action="Edit" asp-route-id="@chapters.Id" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
+                        @if (userManager.GetUserId(User) == chapters.Сomposition.AuthorID || User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@chapters.Id" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        }
+                        </form>
+                    
                 </td>
             </tr>
         }

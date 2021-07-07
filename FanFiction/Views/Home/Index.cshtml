@@ -1,8 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@{ViewData["Title"] = "FanFiction";}
+
+@model List<FanFiction.Models.Сomposition>
+
+@foreach (var mod in Model)
+{
+    <div class="container" style="word-wrap:break-word;">
+        <form asp-action="Delete" asp-controller="Сomposition" asp-route-id="@mod.Id" method="post">
+            <h4 class="display-5 text-left">@mod.Title</h4>
+            <h5 class=" text-left">@mod.Fandom </h5>
+            <h5 class="lead text-left w-50">@mod.Description </h5>
+            <a asp-action="ChapterList" asp-route-id="@mod.Id" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Chapter list</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <button type="submit" class="btn btn-sm btn-danger" 
+                        onclick="return confirm('this will lead to the PERMANENTLY deletion of this composition');">Delete
+                </button>
+            }
+            <br />
+            <br />
+            <br />
+        </form>
+    </div>
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
