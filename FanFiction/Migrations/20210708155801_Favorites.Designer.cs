@@ -4,14 +4,16 @@ using FanFiction.Models.AppDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210708155801_Favorites")]
+    partial class Favorites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace FanFiction.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CompositionId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Counter")
                         .HasColumnType("int");
@@ -64,8 +66,6 @@ namespace FanFiction.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompositionId");
 
                     b.ToTable("Favorites");
                 });
@@ -85,6 +85,9 @@ namespace FanFiction.Migrations
                     b.Property<string>("Fandom")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FavoritesId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastEdit")
                         .HasColumnType("datetime2");
 
@@ -95,6 +98,8 @@ namespace FanFiction.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FavoritesId");
 
                     b.ToTable("Compositions");
                 });
@@ -305,14 +310,13 @@ namespace FanFiction.Migrations
                     b.Navigation("Сomposition");
                 });
 
-            modelBuilder.Entity("FanFiction.Models.Favorites", b =>
+            modelBuilder.Entity("FanFiction.Models.Сomposition", b =>
                 {
-                    b.HasOne("FanFiction.Models.Сomposition", "Сomposition")
-                        .WithMany("Favorites")
-                        .HasForeignKey("CompositionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("FanFiction.Models.Favorites", "Favorites")
+                        .WithMany()
+                        .HasForeignKey("FavoritesId");
 
-                    b.Navigation("Сomposition");
+                    b.Navigation("Favorites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -369,8 +373,6 @@ namespace FanFiction.Migrations
             modelBuilder.Entity("FanFiction.Models.Сomposition", b =>
                 {
                     b.Navigation("Chapters");
-
-                    b.Navigation("Favorites");
                 });
 #pragma warning restore 612, 618
         }

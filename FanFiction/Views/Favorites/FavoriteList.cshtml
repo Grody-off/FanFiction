@@ -1,0 +1,19 @@
+﻿@{ViewData["Title"] = "Posts";}
+@model List<FanFiction.Models.Favorites>
+
+<div class="container">
+    @foreach (var mod in Model)
+    {
+        <div class="container" style="word-wrap:break-word;">
+            <form>
+                <h4 class="text-left">@mod.Сomposition.Title</h4>
+                <h5 class="text-left">@mod.Сomposition.Fandom </h5>
+                <h5 class="text-left">@mod.Сomposition.Description </h5>
+                <a asp-action="ChapterList" asp-route-id="@mod.CompositionId" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Chapter list</a>
+                <br />
+                <br />
+                <br />
+            </form>
+        </div>
+    }
+</div>

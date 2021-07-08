@@ -26,6 +26,12 @@ namespace FanFiction.Models.AppDBContext
                .HasForeignKey(b => b.CompositionId)
                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Сomposition>()
+              .HasMany(b => b.Favorites)
+              .WithOne(b => b.Сomposition)
+              .HasForeignKey(b => b.CompositionId)
+              .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Chapter>()
                 .ToTable("Chapters")
                 .Property(e => e.Id)
@@ -37,9 +43,23 @@ namespace FanFiction.Models.AppDBContext
                 .HasForeignKey(b => b.CompositionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
+            modelBuilder.Entity<Favorites>()
+               .ToTable("Favorites")
+               .Property(q => q.Id)
+               .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Favorites>()
+                .HasOne(b => b.Сomposition)
+                .WithMany(b => b.Favorites)
+                .HasForeignKey(b => b.CompositionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Сomposition> Сomposition { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
+
+        public DbSet<Favorites> Favorites { get; set; }
     }
 }

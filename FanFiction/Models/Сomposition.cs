@@ -8,6 +8,7 @@ namespace FanFiction.Models
         public Сomposition()
         {
             Chapters = new List<Chapter>();
+            Favorites = new List<Favorites>();
         }
         public string Id { get; set; }
         public string AuthorID { get; set; }
@@ -19,5 +20,7 @@ namespace FanFiction.Models
         public DateTime LastEdit { get; set; }
 
         public ICollection<Chapter> Chapters { get; set; }
+
+        public ICollection<Favorites> Favorites { get; set; }
     }
 }

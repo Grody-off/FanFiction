@@ -1,30 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Posts";
-}
-
+﻿@{ViewData["Title"] = "Posts";}
 @model List<FanFiction.Models.Сomposition>
 
-<div class="container" style="word-wrap:break-word;">
-    <a class="btn btn-sm btn-primary" asp-action="New">Create new composition</a>
-    <br />
-    <br />
-</div>
+<div class="container">
+    <div class="container" style="word-wrap:break-word;">
+        <a class="btn btn-lg btn-outline-success" asp-action="New">Create new composition</a>
+        <a class="btn btn-lg btn-outline-success" asp-action="FavoriteList" asp-controller="Favorites">Your favorite</a>
+        <br />
+        <br />
+    </div>
 
-@foreach(var mod in Model){
-<div class="container" style="word-wrap:break-word;">
-    <form asp-action="Delete" asp-route-id="@mod.Id" method="post">
-        <h4 class="text-left">@mod.Title</h4>
-        <h5 class="text-left">@mod.Fandom </h5>
-        <h5 class="text-left">@mod.Description </h5>
-        <a asp-action="Edit" asp-route-id="@mod.Id" method="post" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
-        <a asp-action="NewChapter" asp-route-id="@mod.Id" method="post" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-success">Add new chapter</a>
-        <a asp-action="ChapterList" asp-route-id="@mod.Id"  asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Chapter list</a>
-        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-        <br />
-        <br />
-        <br />
-    </form>
+    @foreach (var mod in Model)
+    {
+        <div class="container" style="word-wrap:break-word;">
+            <form asp-action="Delete" asp-route-id="@mod.Id" method="post">
+                <h4 class="text-left">@mod.Title</h4>
+                <h5 class="text-left">@mod.Fandom </h5>
+                <h5 class="text-left">@mod.Description </h5>
+                <a asp-action="Edit" asp-route-id="@mod.Id" method="post" class="mr-2 ml-2 btn btn-sm btn-warning">Edit</a>
+                <a asp-action="NewChapter" asp-route-id="@mod.Id" method="post" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-success">Add new chapter</a>
+                <a asp-action="ChapterList" asp-route-id="@mod.Id" asp-controller="Chapter" class="mr-2 ml-2 btn btn-sm btn-info">Chapter list</a>
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                <br />
+                <br />
+                <br />
+            </form>
+        </div>
+    }
 </div>
-
-}
 

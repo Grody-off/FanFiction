@@ -4,14 +4,16 @@ using FanFiction.Models.AppDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FanFiction.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210708164046_Favorites-fix")]
+    partial class Favoritesfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace FanFiction.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CompositionId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Counter")
                         .HasColumnType("int");
@@ -63,9 +65,12 @@ namespace FanFiction.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("СompositionId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CompositionId");
+                    b.HasIndex("СompositionId");
 
                     b.ToTable("Favorites");
                 });
@@ -309,8 +314,7 @@ namespace FanFiction.Migrations
                 {
                     b.HasOne("FanFiction.Models.Сomposition", "Сomposition")
                         .WithMany("Favorites")
-                        .HasForeignKey("CompositionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("СompositionId");
 
                     b.Navigation("Сomposition");
                 });

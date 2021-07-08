@@ -34,7 +34,7 @@ namespace FanFiction.Controllers
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
-                        new { user.Id, code },
+                        new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
                     EmailService emailService = new EmailService();
                     await emailService.SendEmailAsync(userData.Email, "Confirm your account",

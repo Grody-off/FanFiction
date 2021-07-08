@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Posts";
+}
+
+@model List<FanFiction.Models.Сomposition>
+
+
+@foreach (var res in Model)
+    {
+        <h1>@res.Title</h1>
+    }
