@@ -34,7 +34,6 @@ namespace FanFiction.Controllers
                 {
                     UserId = userId,
                     CompositionId = comp.Id,
-                    Status = true
                 };
 
                 _context.Favorites.Add(fav);
